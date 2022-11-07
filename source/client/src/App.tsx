@@ -22,7 +22,6 @@ export class App extends React.Component<IProps>{
     }
 
     mountData(){
-        APP_STORAGE.main.setTitle("ТИТУЛЬНЫЙ ЗАГОЛОВОК СТРАНИЦЫ");
         APP_STORAGE.projects.getProjects();
     }
 
