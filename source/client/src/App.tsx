@@ -35,7 +35,7 @@ export class App extends React.Component<IProps>{
 
         return (
             <React.Fragment>
-                <div>REACT APP12</div>
+                <div>REACT APP</div>
             </React.Fragment>
         );
     }
