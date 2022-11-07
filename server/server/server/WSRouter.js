@@ -38,35 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.WSRoute = void 0;
 var WSQuery_1 = require("../xcore/WSQuery");
-var ProjectsTable_1 = require("../xcore/dbase/ProjectsTable");
 function WSRoute(_ws, q) {
     return __awaiter(this, void 0, void 0, function () {
-        var wsres, _a, pt, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    wsres = new WSQuery_1.WSResult(q.cmd);
-                    _a = q.cmd;
-                    switch (_a) {
-                        case 'get_all_projects': return [3, 1];
+        var wsres;
+        return __generator(this, function (_a) {
+            wsres = new WSQuery_1.WSResult(q.cmd);
+            switch (q.cmd) {
+                case 'get_all_projects':
+                    {
+                        wsres.error = "\u041A\u043E\u043C\u0430\u043D\u0434\u0430 \"".concat(q.cmd, "\" !!!");
                     }
-                    return [3, 3];
-                case 1:
-                    pt = new ProjectsTable_1.ProjectsTable();
-                    _b = wsres;
-                    return [4, pt.selectAll()];
-                case 2:
-                    _b.data = _c.sent();
-                    return [3, 4];
-                case 3:
+                    break;
+                default:
                     {
                         wsres.error = "\u041A\u043E\u043C\u0430\u043D\u0434\u0430 \"".concat(q.cmd, "\" \u043D\u0435 \u0440\u0430\u0441\u043F\u043E\u0437\u043D\u0430\u043D\u0430");
                     }
-                    return [3, 4];
-                case 4:
-                    _ws.send((0, WSQuery_1.WSStr)(wsres));
-                    return [2];
+                    break;
             }
+            _ws.send((0, WSQuery_1.WSStr)(wsres));
+            return [2];
         });
     });
 }

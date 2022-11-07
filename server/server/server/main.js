@@ -45,7 +45,7 @@ var http_1 = __importDefault(require("http"));
 var ws_1 = __importDefault(require("ws"));
 var hbs_1 = __importDefault(require("hbs"));
 var DBase_1 = require("../xcore/dbase/DBase");
-var config_1 = require("./config");
+var config_1 = require("../xcore/config");
 var WSRouter_1 = require("./WSRouter");
 var AppServer = (function () {
     function AppServer() {

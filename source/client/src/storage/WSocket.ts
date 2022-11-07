@@ -1,4 +1,4 @@
-import { CONFIG } from '../../../server/config';
+import { CONFIG } from '../../../xcore/config';
 import { IWSQuery, WSStr } from '../../../xcore/WSQuery';
 import { APP_STORAGE } from './AppStorage';
 
