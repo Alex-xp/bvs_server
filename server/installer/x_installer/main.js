@@ -39,6 +39,10 @@ exports.__esModule = true;
 var DBase_1 = require("../xcore/dbase/DBase");
 var DateStr_1 = require("../xcore/dbase/DateStr");
 var users_1 = require("./sql/users");
+var orgs_1 = require("./sql/orgs");
+var jobs_titles_1 = require("./sql/jobs_titles");
+var users_roles_1 = require("./sql/users_roles");
+var sessions_1 = require("./sql/sessions");
 function run() {
     return __awaiter(this, void 0, void 0, function () {
         var db, dt;
@@ -50,11 +54,46 @@ function run() {
                 case 1:
                     dt = _a.sent();
                     console.log("START INSTALLER", (0, DateStr_1.dateTimeToStr)(dt));
-                    return [4, db.query(users_1.users_table.sql, users_1.users_table.args)];
+                    console.log("ADDING TABLE \"orgs\"");
+                    return [4, db.query(orgs_1.orgs_table.sql)];
                 case 2:
                     _a.sent();
-                    return [4, db.query(users_1.insert_admin.sql, users_1.insert_admin.args)];
+                    console.log("TABLE \"orgs\" ADD");
+                    console.log("ADDING TABLE \"jobs_titles\"");
+                    return [4, db.query(jobs_titles_1.jobs_titles_table.sql)];
                 case 3:
+                    _a.sent();
+                    console.log("TABLE \"jobs_titles\" ADD");
+                    console.log("ADDING TABLE \"users_roles\"");
+                    return [4, db.query(users_roles_1.users_roles_table.sql)];
+                case 4:
+                    _a.sent();
+                    console.log("TABLE \"users_roles\" ADD");
+                    console.log("ADDING TABLE \"sessions\"");
+                    return [4, db.query(sessions_1.sessions_table.sql)];
+                case 5:
+                    _a.sent();
+                    console.log("TABLE \"sessions\" ADD");
+                    console.log("ADDING TABLE \"users\"");
+                    return [4, db.query(users_1.users_table.sql, users_1.users_table.args)];
+                case 6:
+                    _a.sent();
+                    console.log("TABLE \"users\" ADD");
+                    console.log("CREATE ROLE");
+                    return [4, db.query(users_roles_1.insert_role.sql, users_roles_1.insert_role.args)];
+                case 7:
+                    _a.sent();
+                    console.log("CREATE ORG");
+                    return [4, db.query(orgs_1.org_insert_admin.sql, orgs_1.org_insert_admin.args)];
+                case 8:
+                    _a.sent();
+                    console.log("CREATE JOB_TITLE");
+                    return [4, db.query(jobs_titles_1.insert_jt_admin.sql, jobs_titles_1.insert_jt_admin.args)];
+                case 9:
+                    _a.sent();
+                    console.log("CREATE USER");
+                    return [4, db.query(users_1.insert_admin.sql, users_1.insert_admin.args)];
+                case 10:
                     _a.sent();
                     (0, DBase_1.endDB)();
                     console.log("END INSTALLER");
