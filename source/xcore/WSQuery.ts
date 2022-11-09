@@ -48,7 +48,8 @@ export function WSStr(obj: IWSQuery|IWSResult):string{
  * Описание типа запроса на сервер (WebSocket)
  */
 export interface IWSQuery {
-    cmd:string
+    cmd:string, /* команда запроса */
+    args: any /* аргументы запроса { "arg1":"agr1_value", .... } */
 }
 
 /**
@@ -56,8 +57,10 @@ export interface IWSQuery {
  */
 export class WSQuery implements IWSQuery{
     cmd = '';
-    constructor(_cmd?:string){
+    args:any = {};
+    constructor(_cmd?:string, _args?:any){
         this.cmd = _cmd || '';
+        this.args = _args || {};
     }
 }
 
@@ -69,21 +72,24 @@ export class WSQuery implements IWSQuery{
  * Описание типа ответа с сервера (WebSocket)
  */
 export interface IWSResult {
-    cmd:string,
-    error:string,
-    data: any[]
+    cmd:string, /* команда запроса */
+    error:string, /* ошибка */
+    data: any[], /* строки из запроса */
+    code:string /* дополнительный код ответа */
 }
 
 /**
  * Класс ответа с сервера (WebSocket)
  */
 export class WSResult implements IWSResult{
-    cmd:string = '';
-    error:string = null;
-    data:any[] = null;
+    cmd:string = ''; /* команда запроса */
+    error:string = null; /* ошибка */
+    data:any[] = null; /* строки из запроса */
+    code:string = ''; /* дополнительный код ответа */
     constructor(_cmd?:string){
         this.cmd = _cmd || '';
         this.data = new Array();
+        this.code = '';
     }
 }
 

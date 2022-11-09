@@ -7,6 +7,8 @@ import { WSocket } from './storage/WSocket';
 
 import { IWSQuery, WSQuery } from '../../xcore/WSQuery';
 
+import { AuthForm } from './components/AuthForm'
+
 interface IProps {}
 
 @observer
@@ -36,7 +38,7 @@ export class App extends React.Component<IProps>{
 
         return (
             <React.Fragment>
-                <div>REACT APP</div>
+              <AuthForm/>
             </React.Fragment>
         );
     }
