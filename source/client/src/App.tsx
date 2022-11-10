@@ -20,12 +20,8 @@ export class App extends React.Component<IProps>{
     }
 
     componentDidMount(): void {
-        this.mountData();
-    }
-
-    mountData(){
         APP_STORAGE.main.setTitle("ТИТУЛЬНЫЙ ЗАГОЛОВОК СТРАНИЦЫ");
-        APP_STORAGE.projects.getProjects();
+        APP_STORAGE.get_UserBySessionCode();
     }
 
     componentWillUnmount(): void {}

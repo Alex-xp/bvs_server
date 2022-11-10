@@ -1,8 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import {Avatar, Button, CssBaseline, TextField , Container , Typography, Box, Paper} from '@mui/material';
 import { APP_STORAGE } from '../storage/AppStorage';
+
+import {Avatar, Button, TextField, Box} from '@mui/material';
 
 interface IProps{}
 
@@ -12,27 +13,59 @@ export class AuthForm extends React.Component<IProps> {
         super(props);
     }
 
-    componentDidMount(): void {
-        APP_STORAGE.main.setLogginned(false);
-    }
-
-    componentWillUnmount(): void {}
-
     render(): React.ReactNode {
-
         return (
             <React.Fragment>
-                <Box sx={{margin:"0 auto", minWidth:'400px', width:"100%", maxWidth:"600px", paddingTop:"50px"}}>
-            <Container >
-            <div className='Box-login'>
+                 <Box sx={{margin:"0 auto", minWidth:'400px', width:"100%", maxWidth:"600px", paddingTop:"50px"}}>
+            <div>
                 <Avatar >
-                </Avatar>
-             </div>
-                <TextField variant="outlined"  margin="normal"  required fullWidth id="email" label="Логин" name="login" autoComplete="login" autoFocus  />
-                <TextField  variant="outlined"  margin="normal" required fullWidth name="password" label="Пароль" type="password" id="password" autoComplete="current-password"/>
-                <Button type="button" fullWidth variant="contained" color="primary"> Войти </Button>
-            </Container>
-                </Box>  
+                </Avatar> 
+                <form  noValidate>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Логин"
+                        name="login"
+                        autoComplete="login"
+                        autoFocus  
+
+                        onChange={ (e)=>{ APP_STORAGE.auth_form.setLogin(e.target.value); } }
+                        value={ APP_STORAGE.auth_form.getLogin() }
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Пароль"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+
+                        onChange={ (e)=>{ APP_STORAGE.auth_form.setPassword(e.target.value); } }
+                        value={ APP_STORAGE.auth_form.getPassword() }
+                    />
+                    <Button
+                        type="button"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+
+                        onClick={ ()=>{ 
+                            console.log(APP_STORAGE.auth_form.getLogin(), APP_STORAGE.auth_form.getPassword()); 
+                            APP_STORAGE.auth_form.get_UserByAuth();
+                        } }
+                        
+                    >
+                        Войти
+                    </Button>
+                </form>
+            </div>
+        </Box>
             </React.Fragment>
         );
     }
