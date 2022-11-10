@@ -34,9 +34,11 @@ function WSStr(obj) {
 }
 exports.WSStr = WSStr;
 var WSQuery = (function () {
-    function WSQuery(_cmd) {
+    function WSQuery(_cmd, _args) {
         this.cmd = '';
+        this.args = {};
         this.cmd = _cmd || '';
+        this.args = _args || {};
     }
     return WSQuery;
 }());
@@ -46,8 +48,10 @@ var WSResult = (function () {
         this.cmd = '';
         this.error = null;
         this.data = null;
+        this.code = '';
         this.cmd = _cmd || '';
         this.data = new Array();
+        this.code = '';
     }
     return WSResult;
 }());

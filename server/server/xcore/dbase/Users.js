@@ -35,55 +35,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
-exports.WSRoute = void 0;
-var WSQuery_1 = require("../xcore/WSQuery");
-var Sessions_1 = require("../xcore/dbase/Sessions");
-var Users_1 = require("../xcore/dbase/Users");
-function WSRoute(_ws, q) {
-    return __awaiter(this, void 0, void 0, function () {
-        var wsres, _a, st, _b, ut, st, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
-                case 0:
-                    wsres = new WSQuery_1.WSResult(q.cmd);
-                    console.log(q);
-                    _a = q.cmd;
-                    switch (_a) {
-                        case 'get_UserBySessionCode': return [3, 1];
-                        case 'get_UserByAuth': return [3, 3];
-                    }
-                    return [3, 6];
-                case 1:
-                    st = new Sessions_1.SessionsTable(q.args.data);
-                    _b = wsres;
-                    return [4, st.selectSess()];
-                case 2:
-                    _b.data = _e.sent();
-                    return [3, 7];
-                case 3:
-                    ut = new Users_1.UserTable(q.args);
-                    st = new Sessions_1.SessionsTable(q.args);
-                    _c = wsres;
-                    return [4, st.insertSess()];
-                case 4:
-                    _c.code = _e.sent();
-                    _d = wsres;
-                    return [4, ut.selectUser()];
-                case 5:
-                    _d.data = _e.sent();
-                    return [3, 7];
-                case 6:
-                    {
-                        wsres.error = "\u041A\u043E\u043C\u0430\u043D\u0434\u0430 \"".concat(q.cmd, "\" \u043D\u0435 \u0440\u0430\u0441\u043F\u043E\u0437\u043D\u0430\u043D\u0430");
-                    }
-                    return [3, 7];
-                case 7:
-                    _ws.send((0, WSQuery_1.WSStr)(wsres));
-                    return [2];
-            }
+exports.UserTable = exports.UsersEntity = void 0;
+var DBase_1 = require("./DBase");
+var crypto_1 = __importDefault(require("crypto"));
+var config_1 = require("../../xcore/config");
+var UsersEntity = (function () {
+    function UsersEntity() {
+        this.id = 0;
+        this.login = '';
+        this.password = '';
+        this.family = '';
+        this.name = '';
+        this.father = '';
+        this.telephone = '';
+        this.email = '';
+        this.org_id = 0;
+        this.job_title_id = 0;
+        this.roles_ids = {};
+        this.user_data = {};
+        this.mail_code = '';
+        this.act_mail = false;
+        this.re_password_code = '';
+        this.deleted = false;
+        this.deleted_date = null;
+        this.created_at = new Date(Date.now());
+        this.info = '';
+        this._sess_code = '';
+    }
+    return UsersEntity;
+}());
+exports.UsersEntity = UsersEntity;
+var UserTable = (function () {
+    function UserTable(_args) {
+        this.db = (0, DBase_1.getDB)();
+        this.args = _args;
+    }
+    UserTable.prototype.selectUser = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var db_res, result, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.db.query("SELECT * FROM SelectUser ('" + this.args.login + "', '" + crypto_1["default"].createHmac('sha256', config_1.CONFIG.key_code).update(this.args.password).digest('hex') + "')")];
+                    case 1:
+                        db_res = _a.sent();
+                        result = new Array();
+                        for (r in db_res.rows) {
+                            result.push(db_res.rows[r]);
+                        }
+                        if (result !== []) {
+                            return [2, result];
+                        }
+                        else {
+                            return [2, null];
+                        }
+                        return [2];
+                }
+            });
         });
-    });
-}
-exports.WSRoute = WSRoute;
-//# sourceMappingURL=WSRouter.js.map
+    };
+    return UserTable;
+}());
+exports.UserTable = UserTable;
+//# sourceMappingURL=Users.js.map
