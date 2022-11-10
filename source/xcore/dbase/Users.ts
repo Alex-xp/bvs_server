@@ -1,4 +1,8 @@
 import { DBase, getDB } from "./DBase";
+import crypto from 'crypto';
+import { CONFIG } from '../../xcore/config';
+
+import { SessionsTable } from '../dbase/Sessions';
 
 
 export class UsersEntity{
@@ -22,5 +26,29 @@ export class UsersEntity{
     created_at:Date =  new Date(Date.now());
     info:string = '';
 
+    _sess_code:string='';
+
     constructor(){}
+}
+
+export class UserTable{
+    db:DBase;
+    args:any;
+    constructor(_args:any){
+        this.db = getDB();
+        this.args = _args;
+    }
+
+    async selectUser():Promise<UsersEntity[]>{
+        var db_res = await this.db.query("SELECT * FROM SelectUser ('"+this.args.login+"', '"+crypto.createHmac('sha256', CONFIG.key_code).update(this.args.password).digest('hex')+"')");
+        var result:UsersEntity[] = new Array();
+        for(var r in db_res.rows)
+        {
+            result.push(db_res.rows[r]);
+        }
+        if (result !== []){ 
+            
+            return result; }
+        else {return null;}
+    }
 }

@@ -53,6 +53,28 @@ COMMENT ON COLUMN sessions.created_at IS 'Время создания запис
 COMMENT ON COLUMN sessions.sess_code IS 'Код сессии';
 COMMENT ON COLUMN sessions.sess_data IS 'Данные сессии в формате json типа ключ значение';
 
+
+
+-- Функция сессий пользователя
+create function AddUserSession 
+(
+ c_Uid BIGINT,
+ c_Expires TIMESTAMP,
+ c_Created_at TIMESTAMP,
+ c_Sess_code VARCHAR(250),
+ c_Sess_data JSON
+) RETURNS VOID AS $$
+BEGIN 
+	INSERT INTO sessions(uid, expires, created_at, sess_code, sess_data)
+	VALUES(c_Uid, c_Expires, c_Created_at,c_Sess_code, c_Sess_data);
+END
+$$
+LANGUAGE 'plpgsql'
+--
+
+
+
+
 --Таблица ролей пользователя
 DROP TABLE IF EXISTS users_roles;
 CREATE TABLE users_roles (
@@ -108,4 +130,49 @@ COMMENT ON COLUMN users.re_password_code IS 'код смены пароля по
 COMMENT ON COLUMN users.deleted IS 'блокировка пользователя';
 COMMENT ON COLUMN users.deleted_date IS 'дата блокировки пользователя';
 COMMENT ON COLUMN users.created_at IS 'дата создания записи';
-COMMENT ON COLUMN users.info IS 'дополнительное описание';
+COMMENT ON COLUMN users.info IS 'дополнительное описание';3
+
+--Выбор id пользовотеля для формирования CODE
+CREATE OR REPLACE FUNCTION SelectIdUser(
+	c_login VARCHAR(250), 
+	c_password VARCHAR(250)
+)
+RETURNS BIGINT
+as $$
+	SELECT id FROM users WHERE login = c_login and password = c_password
+$$ LANGUAGE sql;
+
+--получаем все данные таблицы users по логину и паролю
+CREATE OR REPLACE FUNCTION SelectUser(
+	c_login VARCHAR(250), 
+	c_password VARCHAR(250)
+)
+RETURNS table(
+	id BIGINT, 
+	login VARCHAR(250), 
+	password VARCHAR(250), 
+	family VARCHAR(150), 
+	name VARCHAR(150), 
+	father VARCHAR(150), 
+	telephone VARCHAR(50), 
+	email VARCHAR(150), 
+	org_id BIGINT, 
+	job_title_id BIGINT, 
+	roles_ids JSON,
+	user_data JSON, 
+	mail_code VARCHAR(250), 
+	act_mail BOOLEAN, 
+	re_password_code VARCHAR(250), 
+	deleted BOOLEAN, 
+	deleted_date TIMESTAMP, 
+	created_at TIMESTAMP, 
+	info TEXT
+)
+
+
+as $$
+	SELECT users.id, users.login, users.password, users.family, users.name, users.father, users.telephone, users.email, users.org_id, users.job_title_id, users.roles_ids,
+	users.user_data, users.mail_code, users.act_mail, users.re_password_code, users.deleted, users.deleted_date, users.created_at, users.info
+	FROM users 
+	WHERE login = c_login and password = c_password
+$$ LANGUAGE sql;
