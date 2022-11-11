@@ -69,7 +69,7 @@ BEGIN
 	VALUES(c_Uid, c_Expires, c_Created_at,c_Sess_code, c_Sess_data);
 END
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE 'plpgsql';
 --
 
 
@@ -130,7 +130,7 @@ COMMENT ON COLUMN users.re_password_code IS 'код смены пароля по
 COMMENT ON COLUMN users.deleted IS 'блокировка пользователя';
 COMMENT ON COLUMN users.deleted_date IS 'дата блокировки пользователя';
 COMMENT ON COLUMN users.created_at IS 'дата создания записи';
-COMMENT ON COLUMN users.info IS 'дополнительное описание';3
+COMMENT ON COLUMN users.info IS 'дополнительное описание';
 
 --Выбор id пользовотеля для формирования CODE
 CREATE OR REPLACE FUNCTION SelectIdUser(

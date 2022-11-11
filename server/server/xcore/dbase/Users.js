@@ -64,7 +64,6 @@ var UsersEntity = (function () {
         this.deleted_date = null;
         this.created_at = new Date(Date.now());
         this.info = '';
-        this._sess_code = '';
     }
     return UsersEntity;
 }());
@@ -86,13 +85,7 @@ var UserTable = (function () {
                         for (r in db_res.rows) {
                             result.push(db_res.rows[r]);
                         }
-                        if (result !== []) {
-                            return [2, result];
-                        }
-                        else {
-                            return [2, null];
-                        }
-                        return [2];
+                        return [2, result];
                 }
             });
         });

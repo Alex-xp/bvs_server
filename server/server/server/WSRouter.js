@@ -42,9 +42,9 @@ var Sessions_1 = require("../xcore/dbase/Sessions");
 var Users_1 = require("../xcore/dbase/Users");
 function WSRoute(_ws, q) {
     return __awaiter(this, void 0, void 0, function () {
-        var wsres, _a, st, _b, ut, st, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
+        var wsres, _a, st, _b, ut, st, code, data;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     wsres = new WSQuery_1.WSResult(q.cmd);
                     console.log(q);
@@ -57,21 +57,27 @@ function WSRoute(_ws, q) {
                 case 1:
                     st = new Sessions_1.SessionsTable(q.args.data);
                     _b = wsres;
-                    return [4, st.selectSess()];
+                    return [4, st.selectSessCode()];
                 case 2:
-                    _b.data = _e.sent();
+                    _b.data = _c.sent();
                     return [3, 7];
                 case 3:
                     ut = new Users_1.UserTable(q.args);
                     st = new Sessions_1.SessionsTable(q.args);
-                    _c = wsres;
                     return [4, st.insertSess()];
                 case 4:
-                    _c.code = _e.sent();
-                    _d = wsres;
+                    code = _c.sent();
                     return [4, ut.selectUser()];
                 case 5:
-                    _d.data = _e.sent();
+                    data = _c.sent();
+                    console.log("DATA ", data);
+                    if (code === '' && data[0] === undefined) {
+                        wsres.error = "Пользователя не существует или введены не верные данные";
+                    }
+                    else {
+                        wsres.code = code;
+                        wsres.data = data;
+                    }
                     return [3, 7];
                 case 6:
                     {
