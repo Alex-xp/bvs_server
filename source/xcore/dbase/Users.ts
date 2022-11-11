@@ -36,12 +36,24 @@ export class UserTable {
         this.args = _args;
     }
 
+    //Поиск пользователя по логину и паролю
     async selectUser(): Promise<UsersEntity[]> {
         var db_res = await this.db.query("SELECT * FROM SelectUser ('" + this.args.login + "', '" + crypto.createHmac('sha256', CONFIG.key_code).update(this.args.password).digest('hex') + "')");
         var result: UsersEntity[] = new Array();
         for (var r in db_res.rows) {
             result.push(db_res.rows[r]);
         }
-       return result;
+        return result;
     }
+
+    //Поиск пользователя по коду сессии 
+    async selectUserBySessCode(): Promise<UsersEntity[]> {
+        var db_res = await this.db.query("SELECT * FROM SelectUserBySessCode ('" + this.args.code + "')");
+        var result: UsersEntity[] = new Array();
+        for (var r in db_res.rows) {
+            result.push(db_res.rows[r]);
+        }
+        return result;
+    }
+
 }

@@ -27,8 +27,7 @@ export class SessionsTable {
 
     //Выбор сессии по коду
     async selectSessCode(): Promise<SessionsEntity[]> {
-        //Данные с Куков не приходят, так как не установлены
-        var db_res = await this.db.query("SELECT * FROM sessions WHERE sess_code = " + this.args + "")
+        var db_res = await this.db.query("SELECT * FROM SelectSessCode ('" + this.args.code + "')");
         var result: SessionsEntity[] = new Array();
         for (var r in db_res.rows) {
             result.push(db_res.rows[r]);

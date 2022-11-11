@@ -42,49 +42,58 @@ var Sessions_1 = require("../xcore/dbase/Sessions");
 var Users_1 = require("../xcore/dbase/Users");
 function WSRoute(_ws, q) {
     return __awaiter(this, void 0, void 0, function () {
-        var wsres, _a, st, _b, ut, st, code, data;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var wsres, sess_code, data, _a, st, ut, code, ut, st;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     wsres = new WSQuery_1.WSResult(q.cmd);
-                    console.log(q);
                     _a = q.cmd;
                     switch (_a) {
                         case 'get_UserBySessionCode': return [3, 1];
-                        case 'get_UserByAuth': return [3, 3];
+                        case 'get_UserByAuth': return [3, 4];
                     }
-                    return [3, 6];
+                    return [3, 7];
                 case 1:
-                    st = new Sessions_1.SessionsTable(q.args.data);
-                    _b = wsres;
+                    st = new Sessions_1.SessionsTable(q.args);
+                    ut = new Users_1.UserTable(q.args);
                     return [4, st.selectSessCode()];
                 case 2:
-                    _b.data = _c.sent();
-                    return [3, 7];
+                    code = _b.sent();
+                    return [4, ut.selectUserBySessCode()];
                 case 3:
+                    data = _b.sent();
+                    if (code[0] == undefined) {
+                        wsres.error = "Данного кода сессии не существует";
+                    }
+                    else {
+                        sess_code = code[0].sess_code;
+                        wsres.code = sess_code;
+                        wsres.data = data;
+                    }
+                    return [3, 8];
+                case 4:
                     ut = new Users_1.UserTable(q.args);
                     st = new Sessions_1.SessionsTable(q.args);
                     return [4, st.insertSess()];
-                case 4:
-                    code = _c.sent();
-                    return [4, ut.selectUser()];
                 case 5:
-                    data = _c.sent();
-                    console.log("DATA ", data);
-                    if (code === '' && data[0] === undefined) {
+                    sess_code = _b.sent();
+                    return [4, ut.selectUser()];
+                case 6:
+                    data = _b.sent();
+                    if (sess_code === '' && data[0] === undefined) {
                         wsres.error = "Пользователя не существует или введены не верные данные";
                     }
                     else {
-                        wsres.code = code;
+                        wsres.code = sess_code;
                         wsres.data = data;
                     }
-                    return [3, 7];
-                case 6:
+                    return [3, 8];
+                case 7:
                     {
                         wsres.error = "\u041A\u043E\u043C\u0430\u043D\u0434\u0430 \"".concat(q.cmd, "\" \u043D\u0435 \u0440\u0430\u0441\u043F\u043E\u0437\u043D\u0430\u043D\u0430");
                     }
-                    return [3, 7];
-                case 7:
+                    return [3, 8];
+                case 8:
                     _ws.send((0, WSQuery_1.WSStr)(wsres));
                     return [2];
             }
