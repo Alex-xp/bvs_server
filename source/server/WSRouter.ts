@@ -17,7 +17,7 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
         case 'get_UserBySessionCode': {
             var st = new SessionsTable(q.args.data);
             wsres.data = await st.selectSessCode();
-        }break;
+        } break;
 
         case 'get_UserByAuth': {
             var ut = new UserTable(q.args);
@@ -26,16 +26,15 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
             var code = await st.insertSess();
             //Генерация кода сессии, запись в бд
             var data = await ut.selectUser();
-           
 
             if (code === '' && data[0] === undefined) { wsres.error = "Пользователя не существует или введены не верные данные"; }
             else {
                 wsres.code = code;
                 wsres.data = data;
             }
-        }break;
-        
-        
+        } break;
+
+
         default: {
             wsres.error = `Команда "${q.cmd}" не распознана`;
         } break;
