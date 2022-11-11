@@ -70,7 +70,27 @@ BEGIN
 END
 $$
 LANGUAGE 'plpgsql';
---
+
+-- Получение данных сессии по коду
+CREATE OR REPLACE FUNCTION SelectSessCode(
+	c_sess_code VARCHAR(250)
+)
+RETURNS table(
+	id BIGINT, 
+	uid BIGINT, 
+	expires TIMESTAMP, 
+	created_at TIMESTAMP,
+	sess_code VARCHAR(250), 
+	sess_data JSON
+)
+as $$
+	SELECT 
+	sessions.id, sessions.uid, sessions.expires, sessions.created_at, sessions.sess_code, sessions.sess_data
+	FROM sessions 
+	WHERE sess_code = c_sess_code
+$$ LANGUAGE sql;
+
+
 
 
 
@@ -175,4 +195,38 @@ as $$
 	users.user_data, users.mail_code, users.act_mail, users.re_password_code, users.deleted, users.deleted_date, users.created_at, users.info
 	FROM users 
 	WHERE login = c_login and password = c_password
+$$ LANGUAGE sql;
+
+--получаем все данные таблицы users по коду сессии
+
+CREATE OR REPLACE FUNCTION SelectUserBySessCode(
+	c_sess_code VARCHAR(250)
+)
+RETURNS table(
+	id BIGINT, 
+	login VARCHAR(250), 
+	password VARCHAR(250), 
+	family VARCHAR(150), 
+	name VARCHAR(150), 
+	father VARCHAR(150), 
+	telephone VARCHAR(50), 
+	email VARCHAR(150), 
+	org_id BIGINT, 
+	job_title_id BIGINT, 
+	roles_ids JSON,
+	user_data JSON, 
+	mail_code VARCHAR(250), 
+	act_mail BOOLEAN, 
+	re_password_code VARCHAR(250), 
+	deleted BOOLEAN, 
+	deleted_date TIMESTAMP, 
+	created_at TIMESTAMP, 
+	info TEXT
+)
+as $$
+	SELECT users.id, users.login, users.password, users.family, users.name, users.father, users.telephone, users.email, users.org_id, users.job_title_id, users.roles_ids,
+	users.user_data, users.mail_code, users.act_mail, users.re_password_code, users.deleted, users.deleted_date, users.created_at, users.info
+	FROM users 
+	INNER JOIN sessions on users.id = sessions.uid
+	WHERE sessions.sess_code = c_sess_code
 $$ LANGUAGE sql;

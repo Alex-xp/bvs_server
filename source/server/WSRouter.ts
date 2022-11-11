@@ -9,27 +9,42 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
     // начало - создание ответа
     var wsres: IWSResult = new WSResult(q.cmd);
 
-    console.log(q);
+    // console.log(q);
+
+    var sess_code;
+    var data;
+
 
     // обработка данных
     switch (q.cmd) {
 
         case 'get_UserBySessionCode': {
-            var st = new SessionsTable(q.args.data);
-            wsres.data = await st.selectSessCode();
+            var st = new SessionsTable(q.args);
+            var ut = new UserTable(q.args);
+            var code = await st.selectSessCode();
+            data = await ut.selectUserBySessCode();
+
+            if (code[0] == undefined) {
+                wsres.error = "Данного кода сессии не существует";
+            }
+            else {
+                sess_code = code[0].sess_code;
+                wsres.code = sess_code;
+                wsres.data = data;
+            }
         } break;
 
         case 'get_UserByAuth': {
             var ut = new UserTable(q.args);
             var st = new SessionsTable(q.args);
             // Авторизация по логину и паролю
-            var code = await st.insertSess();
+            sess_code = await st.insertSess();
             //Генерация кода сессии, запись в бд
-            var data = await ut.selectUser();
+            data = await ut.selectUser();
 
-            if (code === '' && data[0] === undefined) { wsres.error = "Пользователя не существует или введены не верные данные"; }
+            if (sess_code === '' && data[0] === undefined) { wsres.error = "Пользователя не существует или введены не верные данные"; }
             else {
-                wsres.code = code;
+                wsres.code = sess_code;
                 wsres.data = data;
             }
         } break;
