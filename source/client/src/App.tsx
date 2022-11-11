@@ -11,14 +11,14 @@ import { AuthForm } from './components/AuthForm'
 
 interface IProps {}
 
-@observer
+@observer 
 export class App extends React.Component<IProps>{
 
     constructor(props:any){
         super(props);
-        // console.log(APP_STORAGE);
     }
-
+   
+  
     componentDidMount(): void {
         APP_STORAGE.main.setTitle("ТИТУЛЬНЫЙ ЗАГОЛОВОК СТРАНИЦЫ");
         APP_STORAGE.get_UserBySessionCode();
@@ -29,12 +29,17 @@ export class App extends React.Component<IProps>{
     render(): React.ReactNode {
         document.title = APP_STORAGE.main.getTitle();
 
-        console.log(APP_STORAGE.main);
-        console.log(APP_STORAGE.main.getTitle());
-
+        var ret_dt:React.ReactNode = <></>;
+        var user = APP_STORAGE.auth_form.getUser();
+        if(user !== null && user.id > 0){
+            ret_dt = <div>Next page</div>
+        }else{
+            ret_dt = <AuthForm/>;
+        }
+        
         return (
             <React.Fragment>
-              <AuthForm/>
+                {ret_dt}
             </React.Fragment>
         );
     }

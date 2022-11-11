@@ -3,10 +3,15 @@ import { observer } from 'mobx-react';
 
 import { APP_STORAGE } from '../storage/AppStorage';
 
-import {Avatar, Button, TextField, Box} from '@mui/material';
+import {Avatar, Button, TextField, Box, Container, CssBaseline, Typography } from '@mui/material';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 interface IProps{}
 
+const theme = createTheme(); 
+//Компонент формы авторизации
 @observer
 export class AuthForm extends React.Component<IProps> {
     constructor(props:any){
@@ -16,11 +21,24 @@ export class AuthForm extends React.Component<IProps> {
     render(): React.ReactNode {
         return (
             <React.Fragment>
-                 <Box sx={{margin:"0 auto", minWidth:'400px', width:"100%", maxWidth:"600px", paddingTop:"50px"}}>
-            <div>
-                <Avatar >
-                </Avatar> 
-                <form  noValidate>
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+            <CssBaseline />
+                <Box
+                sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                }}
+                >
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                   Авторизация
+                </Typography>
+                <Box component="form" noValidate sx={{ mt: 1 }}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -31,7 +49,6 @@ export class AuthForm extends React.Component<IProps> {
                         name="login"
                         autoComplete="login"
                         autoFocus  
-
                         onChange={ (e)=>{ APP_STORAGE.auth_form.setLogin(e.target.value); } }
                         value={ APP_STORAGE.auth_form.getLogin() }
                     />
@@ -45,7 +62,6 @@ export class AuthForm extends React.Component<IProps> {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-
                         onChange={ (e)=>{ APP_STORAGE.auth_form.setPassword(e.target.value); } }
                         value={ APP_STORAGE.auth_form.getPassword() }
                     />
@@ -54,18 +70,14 @@ export class AuthForm extends React.Component<IProps> {
                         fullWidth
                         variant="contained"
                         color="primary"
-
-                        onClick={ ()=>{ 
-                            console.log(APP_STORAGE.auth_form.getLogin(), APP_STORAGE.auth_form.getPassword()); 
-                            APP_STORAGE.auth_form.get_UserByAuth();
-                        } }
-                        
+                        onClick={ ()=>{  APP_STORAGE.auth_form.get_UserByAuth();}}
                     >
                         Войти
                     </Button>
-                </form>
-            </div>
-        </Box>
+                </Box>
+                </Box>
+                </Container>
+            </ThemeProvider>
             </React.Fragment>
         );
     }
