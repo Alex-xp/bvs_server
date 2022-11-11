@@ -16,7 +16,7 @@ export class App extends React.Component<IProps>{
 
     constructor(props:any){
         super(props);
-        console.log(APP_STORAGE);
+        // console.log(APP_STORAGE);
     }
 
     componentDidMount(): void {

@@ -4,6 +4,8 @@ import { PageStorage } from './PageStorage';
 import { AuthFormStorage } from './components/AuthFormStorage';
 import { WSocket } from './WSocket';
 
+import { UsersEntity } from '../../../xcore/dbase/Users';
+
 
 /// КУКИ
 
@@ -14,21 +16,25 @@ function getCookie(name: string) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setCookie(name: string, value: any, options?: Map<string, any>) {
+function setCookie(name: string, value: any, _options?: any) {
+    var options:any = {
+        path: '/',
+        ..._options
+    };
 
-    options.set("path", '/');
+    console.log("setCookie", options);
 
-    if (options.get("expires") instanceof Date) {
-        options.set("expires", options.get("expires").toUTCString());
+    if (options["expires"] instanceof Date) {
+        options["expires"] = options["expires"].toUTCString();
     } else {
-        options.set("expires", new Date(Date.now() + (3600 * 24 * 1000) * 30).toUTCString());
+        options["expires"] = new Date(Date.now() + (3600 * 24 * 1000) * 30).toUTCString();
     }
 
     let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
 
     for (let optionKey in options) {
         updatedCookie += "; " + optionKey;
-        let optionValue = options.get(optionKey);
+        let optionValue = options[optionKey];
         if (optionValue !== true) {
             updatedCookie += "=" + optionValue;
         }
@@ -62,15 +68,32 @@ class AppStorage {
     }
 
     @action async onWSData(dt: IWSResult) {
-        console.log("SOCKET RESULT", dt);
+        // console.log("SOCKET RESULT", dt); 
         switch (dt.cmd) {
-            case ('get_all_projects'): {
-                //
+            case ('get_UserByAuth'): {
+                if(dt.error !== null && dt.error.trim() !== ''){}
+
+                var data:UsersEntity[] = new Array();
+                for(var key in dt.data) data.push( dt.data[key] );
+
+                if(data.length > 0){
+                    if(data[0].id > 0){
+                        // СОХРАНИТЬ ПОЛЬЗОВАТЕЛЯ В ХРАНИЛИЩЕ ДАННЫХ КАК ТЕКУЩЕГО ПОЛЬЗОВАТЕЛЯ СИСТЕМЫ !!!!!!!
+                        console.log('dt.code', dt.code);
+                        setCookie('sess_id', dt.code);
+                    }
+                }
+
+                console.log(dt);
             } break;
             default: { } break;
         }
     }
 
+    /**
+     * Получить пользователя по коду сессии из куков (пользователь уже заходил с этого браузера)
+     * @returns 
+     */
     async get_UserBySessionCode(){
         var ss_code = getCookie('sess_id');
         if(ss_code === undefined) return;
@@ -78,9 +101,10 @@ class AppStorage {
         var q:IWSQuery = new WSQuery('get_UserBySessionCode', { code: ss_code });
         (await WSocket.get()).send(q);
 
-        console.log(q);
+        console.log(q); 
     }
 
+   
 };
 
 export const APP_STORAGE: AppStorage = new AppStorage();

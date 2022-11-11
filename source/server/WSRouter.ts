@@ -24,9 +24,10 @@ export async function WSRoute(_ws:WebSocket, q:IWSQuery){
             var ut = new UserTable(q.args);
             var st = new SessionsTable(q.args);
             // Авторизация по логину и паролю
-            wsres.code = await st.insertSess();
-            //Генерация кода сессии, запись в бд
             wsres.data = await ut.selectUser();
+            //Генерация кода сессии, запись в бд
+            wsres.code = await st.insertSess();
+            
         }
         break;
 
