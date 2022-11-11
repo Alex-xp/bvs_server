@@ -71,7 +71,7 @@ var SessionsTable = (function () {
                         db_res = _a.sent();
                         result = new Array();
                         for (r in db_res.rows) {
-                            result.push(db_res.rows[r].sess_code);
+                            result.push(db_res.rows[r]);
                         }
                         return [2, result];
                 }
