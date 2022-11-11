@@ -43,6 +43,5 @@ export class UserTable {
             result.push(db_res.rows[r]);
         }
         return result;
-
     }
 }

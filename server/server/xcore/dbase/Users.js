@@ -64,7 +64,6 @@ var UsersEntity = (function () {
         this.deleted_date = null;
         this.created_at = new Date(Date.now());
         this.info = '';
-        this._sess_code = '';
     }
     return UsersEntity;
 }());

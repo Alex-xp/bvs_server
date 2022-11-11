@@ -61,7 +61,7 @@ var SessionsTable = (function () {
         this.db = (0, DBase_1.getDB)();
         this.args = _args;
     }
-    SessionsTable.prototype.selectSess = function () {
+    SessionsTable.prototype.selectSessCode = function () {
         return __awaiter(this, void 0, void 0, function () {
             var db_res, result, r;
             return __generator(this, function (_a) {
@@ -71,7 +71,7 @@ var SessionsTable = (function () {
                         db_res = _a.sent();
                         result = new Array();
                         for (r in db_res.rows) {
-                            result.push(db_res.rows[r]);
+                            result.push(db_res.rows[r].sess_code);
                         }
                         return [2, result];
                 }
