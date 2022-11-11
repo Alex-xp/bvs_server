@@ -103,6 +103,7 @@ var SessionsTable = (function () {
                     case 0: return [4, this.db.query("SELECT SelectIdUser ('" + this.args.login + "', '" + crypto_1["default"].createHmac('sha256', config_1.CONFIG.key_code).update(this.args.password).digest('hex') + "')")];
                     case 1:
                         db = _a.sent();
+                        if (!(db.rows[0].selectiduser !== null)) return [3, 4];
                         date = new Date;
                         date.setDate(date.getDate() + 15);
                         return [4, this.db.query("select max(id) from sessions")];
@@ -121,6 +122,7 @@ var SessionsTable = (function () {
                     case 3:
                         _a.sent();
                         return [2, sess];
+                    case 4: return [2, ''];
                 }
             });
         });
