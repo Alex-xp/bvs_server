@@ -20,7 +20,7 @@ export class AccountMenu extends React.Component<IProps> {
 
     onLogOut( ) {
         APP_STORAGE.auth_form.setUser(null);
-        setCookie('sess_id',null);
+        setCookie('sess_id', null);
     }
  
     render(): React.ReactNode {

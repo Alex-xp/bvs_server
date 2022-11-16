@@ -49,7 +49,7 @@ export function WSStr(obj: IWSQuery|IWSResult):string{
  */
 export interface IWSQuery {
     cmd:string, /* команда запроса */
-    args: any /* аргументы запроса { "arg1":"agr1_value", .... } */
+    args: any,  /* аргументы запроса { "arg1":"agr1_value", .... } */
 }
 
 /**

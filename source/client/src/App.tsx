@@ -31,10 +31,11 @@ export class App extends React.Component<IProps>{
 
         var ret_dt:React.ReactNode = <></>;
         var user = APP_STORAGE.auth_form.getUser();
+        var sess_id: string = null;
 
-       if(user !== null && user.id > 0 && document.cookie !== '') {
+       if(user !== null && user.id > 0 && document.cookie !== sess_id) {
             ret_dt = <AppForm/>} 
-       else if (user === null) {    
+       else if (user === null ) { 
             ret_dt = <AuthForm/>;}
    
         return ( 
