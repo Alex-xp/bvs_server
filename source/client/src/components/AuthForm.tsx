@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { APP_STORAGE } from '../storage/AppStorage';
 
-import {Avatar, Button, TextField, Box, Container, CssBaseline, Typography } from '@mui/material';
+import {Avatar, Button, TextField, Box, Container, CssBaseline, Typography , Alert , AlertTitle} from '@mui/material';
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -19,6 +19,12 @@ export class AuthForm extends React.Component<IProps> {
     }
 
     render(): React.ReactNode {
+
+        var error_alert:React.ReactNode = <></>;
+        if(APP_STORAGE.auth_form.getCmderror() !== null){
+            error_alert =  <Alert icon={false} sx={{ marginTop: 2}}  severity="error">{APP_STORAGE.auth_form.getCmderror() }</Alert>
+        }
+ 
         return (
             <React.Fragment>
             <ThemeProvider theme={theme}>
@@ -75,8 +81,9 @@ export class AuthForm extends React.Component<IProps> {
                         Войти
                     </Button>
                 </Box>
+                {error_alert}
                 </Box>
-                </Container>
+                </Container> 
             </ThemeProvider>
             </React.Fragment>
         );
