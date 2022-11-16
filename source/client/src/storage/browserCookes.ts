@@ -32,7 +32,7 @@ export function setCookie(name: string, value: any, _options?: any) {
     document.cookie = updatedCookie;
 }
 
-export function deleteCookie(name: string) {
+export function deleteCookie(name: string, value: any, _options?: any) {
     document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent('') + ';max-age=-1;';
     console.log(name)
 }

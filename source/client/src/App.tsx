@@ -33,9 +33,9 @@ export class App extends React.Component<IProps>{
         var user = APP_STORAGE.auth_form.getUser();
         var sess_id: string = null;
 
-       if(user !== null && user.id > 0 && document.cookie !== sess_id) {
+       if(user !== null && user.id > 0 && document.cookie !== '') {
             ret_dt = <AppForm/>} 
-       else if (user === null ) { 
+       else if (user === null && document.cookie === '' ) { 
             ret_dt = <AuthForm/>;}
    
         return ( 

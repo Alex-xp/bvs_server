@@ -21,10 +21,13 @@ export class AccountMenu extends React.Component<IProps> {
 
     onLogOut( ) {
         APP_STORAGE.auth_form.setUser(null);
-        setCookie('sess_id', null);
+       deleteCookie('sess_id', APP_STORAGE.auth_form.getdt() )  
     }
  
     render(): React.ReactNode {
+        
+        console.log('getdt', APP_STORAGE.auth_form.getdt())
+
         const user =  APP_STORAGE.auth_form.user;
         return (
             <React.Fragment>
