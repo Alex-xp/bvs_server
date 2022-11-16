@@ -49,7 +49,8 @@ export function WSStr(obj: IWSQuery|IWSResult):string{
  */
 export interface IWSQuery {
     cmd:string, /* команда запроса */
-    args: any,  /* аргументы запроса { "arg1":"agr1_value", .... } */
+    args: any /* аргументы запроса { "arg1":"agr1_value", .... } */,
+    sess_code:string /* код сессии чтобы проверять пользователя */
 }
 
 /**
@@ -58,9 +59,11 @@ export interface IWSQuery {
 export class WSQuery implements IWSQuery{
     cmd = '';
     args:any = {};
-    constructor(_cmd?:string, _args?:any){
+    sess_code:string = '';
+    constructor(_cmd?:string, _args?:any, _sess_code?:string){
         this.cmd = _cmd || '';
         this.args = _args || {};
+        this.sess_code = _sess_code||'';
     }
 }
 
