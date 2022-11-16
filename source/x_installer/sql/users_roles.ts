@@ -25,6 +25,6 @@ export const users_roles_table = {
 
 
 export const insert_role = {
-    sql:`INSERT INTO users_roles(id, name, created_at, info) VALUES ($1, $2, $3, $4)`, 
-    args:[1, 'Администратор', dateTimeToSQL(new Date(Date.now())) , '']
+    sql:`INSERT INTO users_roles(id, name, created_at, info) VALUES ($1, $2, $3, $4), ($5, $6 ,$7, $8)`, 
+    args:[1, 'users_r', dateTimeToSQL(new Date(Date.now())) , '', 2, 'users_w', dateTimeToSQL(new Date(Date.now())), '']
 };

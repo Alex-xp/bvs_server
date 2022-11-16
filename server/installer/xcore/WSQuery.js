@@ -34,9 +34,13 @@ function WSStr(obj) {
 }
 exports.WSStr = WSStr;
 var WSQuery = (function () {
-    function WSQuery(_cmd) {
+    function WSQuery(_cmd, _args, _sess_code) {
         this.cmd = '';
+        this.args = {};
+        this.sess_code = '';
         this.cmd = _cmd || '';
+        this.args = _args || {};
+        this.sess_code = _sess_code || '';
     }
     return WSQuery;
 }());
@@ -46,8 +50,10 @@ var WSResult = (function () {
         this.cmd = '';
         this.error = null;
         this.data = null;
+        this.code = '';
         this.cmd = _cmd || '';
         this.data = new Array();
+        this.code = '';
     }
     return WSResult;
 }());
