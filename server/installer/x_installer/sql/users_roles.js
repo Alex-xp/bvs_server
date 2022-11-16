@@ -7,7 +7,7 @@ exports.users_roles_table = {
     args: new Array()
 };
 exports.insert_role = {
-    sql: "INSERT INTO users_roles(id, name, created_at, info) VALUES ($1, $2, $3, $4)",
-    args: [1, 'Администратор', (0, DateStr_1.dateTimeToSQL)(new Date(Date.now())), '']
+    sql: "INSERT INTO users_roles(id, name, created_at, info) VALUES ($1, $2, $3, $4), ($5, $6 ,$7, $8)",
+    args: [1, 'users_r', (0, DateStr_1.dateTimeToSQL)(new Date(Date.now())), '', 2, 'users_w', (0, DateStr_1.dateTimeToSQL)(new Date(Date.now())), '']
 };
 //# sourceMappingURL=users_roles.js.map

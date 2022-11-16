@@ -9,13 +9,17 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
     // начало - создание ответа
     var wsres: IWSResult = new WSResult(q.cmd);
 
+
+    console.log(q);
+
     var sess_code;
     var data;
 
 
     // обработка данных
     switch (q.cmd) {
-
+        // Авторизация по коду сессии
+        // Возвращает пользователя и код сессии
         case 'get_UserBySessionCode': {
             var st = new SessionsTable(q.args);
             var ut = new UserTable(q.args);
@@ -32,6 +36,9 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
             }
         } break;
 
+        // Авторизация по логину и паролю 
+        // Создается код сессии записывается в бд 
+        // Возвращает пользователя и код сессии
         case 'get_UserByAuth': {
             var ut = new UserTable(q.args);
             var st = new SessionsTable(q.args);
@@ -47,7 +54,14 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
             }
         } break;
 
+        case 'set_CUserData':{
 
+        }
+        break;
+
+
+
+        //другие коды которые не описаны 
         default: {
             wsres.error = `Команда "${q.cmd}" не распознана`;
         } break;

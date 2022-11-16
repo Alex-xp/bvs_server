@@ -55,6 +55,8 @@ COMMENT ON COLUMN sessions.sess_data IS 'Данные сессии в форма
 
 
 
+
+DROP FUNCTION IF EXISTS AddUserSession;
 -- Функция сессий пользователя
 create function AddUserSession 
 (
@@ -71,6 +73,7 @@ END
 $$
 LANGUAGE 'plpgsql';
 
+DROP FUNCTION IF EXISTS SelectSessCode;
 -- Получение данных сессии по коду
 CREATE OR REPLACE FUNCTION SelectSessCode(
 	c_sess_code VARCHAR(250)
@@ -93,8 +96,6 @@ $$ LANGUAGE sql;
 
 
 
-
-
 --Таблица ролей пользователя
 DROP TABLE IF EXISTS users_roles;
 CREATE TABLE users_roles (
@@ -103,7 +104,7 @@ CREATE TABLE users_roles (
     created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
     info TEXT DEFAULT('')
 );
-COMMENT ON TABLE users_roles IS 'Ролт пользователей в системе';
+COMMENT ON TABLE users_roles IS 'Роль пользователей в системе';
 COMMENT ON COLUMN users_roles.name IS 'Наименование роли';
 COMMENT ON COLUMN users_roles.created_at IS 'Время создания записи';
 COMMENT ON COLUMN users_roles.info IS 'дополнительное описание';
@@ -152,6 +153,39 @@ COMMENT ON COLUMN users.deleted_date IS 'дата блокировки поль�
 COMMENT ON COLUMN users.created_at IS 'дата создания записи';
 COMMENT ON COLUMN users.info IS 'дополнительное описание';
 
+DROP FUNCTION IF EXISTS AddUser;
+--Функция добавления пользователя 
+create function AddUser
+(
+	c_login VARCHAR(250), 
+	c_password VARCHAR(250), 
+	c_family VARCHAR(150), 
+	c_name VARCHAR(150), 
+	c_father VARCHAR(150), 
+	c_telephone VARCHAR(50), 
+	c_email VARCHAR(150), 
+	c_org_id BIGINT, 
+	c_job_title_id BIGINT, 
+	c_roles_ids JSON,
+	c_user_data JSON, 
+	c_mail_code VARCHAR(250), 
+	c_act_mail BOOLEAN, 
+	c_re_password_code VARCHAR(250), 
+	c_deleted BOOLEAN, 
+	c_deleted_date TIMESTAMP, 
+	c_created_at TIMESTAMP, 
+	c_info TEXT
+) RETURNS VOID AS $$
+BEGIN 
+	INSERT INTO users(login, password, family, name, father, telephone, email, org_id, job_title_id, roles_ids, user_data, mail_code, act_mail, re_password_code, deleted, deleted_date, created_at, info)
+	VALUES(c_login, c_password, c_family, c_name, c_father, c_telephone, c_email, c_org_id, c_job_title_id, c_roles_ids, c_user_data, c_mail_code, c_act_mail, c_re_password_code, c_deleted, c_deleted_date, c_created_at, c_info);
+END
+$$
+LANGUAGE 'plpgsql';
+
+
+
+DROP FUNCTION IF EXISTS SelectIdUser;
 --Выбор id пользовотеля для формирования CODE
 CREATE OR REPLACE FUNCTION SelectIdUser(
 	c_login VARCHAR(250), 
@@ -162,6 +196,8 @@ as $$
 	SELECT id FROM users WHERE login = c_login and password = c_password
 $$ LANGUAGE sql;
 
+
+DROP FUNCTION IF EXISTS SelectUser;
 --получаем все данные таблицы users по логину и паролю
 CREATE OR REPLACE FUNCTION SelectUser(
 	c_login VARCHAR(250), 
@@ -188,8 +224,6 @@ RETURNS table(
 	created_at TIMESTAMP, 
 	info TEXT
 )
-
-
 as $$
 	SELECT users.id, users.login, users.password, users.family, users.name, users.father, users.telephone, users.email, users.org_id, users.job_title_id, users.roles_ids,
 	users.user_data, users.mail_code, users.act_mail, users.re_password_code, users.deleted, users.deleted_date, users.created_at, users.info
@@ -197,8 +231,9 @@ as $$
 	WHERE login = c_login and password = c_password
 $$ LANGUAGE sql;
 
---получаем все данные таблицы users по коду сессии
 
+DROP FUNCTION IF EXISTS SelectUserBySessCode;
+--получаем все данные таблицы users по коду сессии
 CREATE OR REPLACE FUNCTION SelectUserBySessCode(
 	c_sess_code VARCHAR(250)
 )
