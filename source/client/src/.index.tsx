@@ -5,7 +5,7 @@ import { App } from './App';
 
 import '../scss/main.scss';
 
+// стартовый файл 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(<App/>);
 
-console.log("HELLO APP");
