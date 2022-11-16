@@ -1,23 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import Button from '@mui/material/Button';
+
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
-import List from '@mui/material/List';
 import {TextField, Box} from '@mui/material';
 import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import { APP_STORAGE } from '../../../storage/AppStorage' 
-
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 interface IProps{}
 
 
@@ -33,27 +22,53 @@ export class PersonalAccaunt extends React.Component<IProps> {
         return (
             <React.Fragment>
 
-<Dialog  
+      <Dialog  
         open={APP_STORAGE.personal_acc.getPersonalAccaunt()}
         onClick={()=>{ APP_STORAGE.personal_acc.setPersonalAccaunt(false); }}
         //TransitionComponent={1}
       >
-        <Box sx={{p: 10}} id = '11111'>
-        Ваши данные
-        <ManageAccountsIcon fontSize="large" />
-        <List >
-          <ListItem button>
-            <ListItemText primary="Изменить персональные данные" secondary="" />
-            <TextField value={user.family } />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Изменить персональные данные"
-              secondary=""
-            />
-          </ListItem>
-        </List>
+        <Box sx={{p: 2}}>
+         Карточка пользователя
+        <Divider />
+        <Box 
+            sx={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr',
+                alignItems : 'center', 
+                gap: 1
+              }}
+         > 
+            <Typography  > Пользователь: </Typography>
+            <TextField size = 'small' sx={{p: 1}} value={user.family } />
+       
+
+          
+            <Typography > Подразделение: </Typography>
+            <TextField size = 'small' sx={{p: 1}} value={user.family } />
+         
+
+            <Typography > Вид должности: </Typography>
+            <TextField size = 'small' sx={{p: 1}} value={user.family } />
+          
+
+            <Typography > Телофон: </Typography>
+            <TextField size = 'small' sx={{p: 1}} value={user.family } />
+          
+         
+            <Typography > E-mail: </Typography>
+            <TextField size = 'small' sx={{p: 1}} value={user.family } />
+          
+
+
+            <Typography > Состояние: </Typography>
+            <TextField  size = 'small' sx={{p: 1}} value='Действующая' />
+        
+
+          
+            <Typography > Примечание: </Typography>
+            <TextField />
+         
+        </Box>
         </Box>
       </Dialog>
     </React.Fragment>
