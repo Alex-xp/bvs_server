@@ -3,6 +3,7 @@ import {MenuItem, IconButton , Divider, Menu , Avatar, Typography , Link } from 
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Settings from '@mui/icons-material/Settings';
+import CreateIcon from '@mui/icons-material/Create';
 import Logout from '@mui/icons-material/Logout';
 
 import {getCookie , setCookie, deleteCookie }  from '../../../storage/browserCookes';
@@ -53,9 +54,9 @@ export class AccountMenu extends React.Component<IProps> {
             </MenuItem>
             <Divider />
              
-            <MenuItem>
+            <MenuItem onClick={()=>{ APP_STORAGE.personal_acc.setPersonalAccaunt(true); }} >
             <ListItemIcon>
-            <Settings fontSize="small" />
+            <CreateIcon fontSize="small" />
             </ListItemIcon>  Изменить данные пользователя
             </MenuItem>
 

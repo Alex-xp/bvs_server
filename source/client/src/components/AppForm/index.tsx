@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import {AppBarPanel} from './AppBarPanel/AppBarPanel'
+import {PersonalAccaunt} from './PersonalAccaunt/PeronalAccaunt'
 
 import { APP_STORAGE } from '../../storage/AppStorage';
 
@@ -21,6 +22,7 @@ export class AppForm extends React.Component<IProps> {
         return (
             <React.Fragment>
                 <AppBarPanel/>
+                <PersonalAccaunt/>
             </React.Fragment>
         );
     }
