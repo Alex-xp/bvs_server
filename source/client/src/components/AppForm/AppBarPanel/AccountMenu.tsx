@@ -25,8 +25,6 @@ export class AccountMenu extends React.Component<IProps> {
     }
  
     render(): React.ReactNode {
-        
-        console.log('getdt', APP_STORAGE.auth_form.getdt())
 
         const user =  APP_STORAGE.auth_form.user;
         return (
