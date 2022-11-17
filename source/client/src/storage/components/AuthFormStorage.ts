@@ -36,7 +36,7 @@ export class AuthFormStorage{
     @action setdt(u:string){ this.dt = u; } //устанавливает значение класса UsersEntity
     @computed getdt():string{ return this.dt; } //возвращает значение класса UsersEntity
 
-    
+ 
 
     async get_UserByAuth(){
         var q:IWSQuery = new WSQuery("get_UserByAuth");
