@@ -34,5 +34,4 @@ export function setCookie(name: string, value: any, _options?: any) {
 
 export function deleteCookie(name: string, value: any, _options?: any) {
     document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent('') + ';max-age=-1;';
-    console.log(name)
 }

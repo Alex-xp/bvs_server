@@ -5,8 +5,8 @@ import { APP_STORAGE } from './storage/AppStorage';
 
 
 
-import { AuthForm } from './components/AuthForm'
-import { AppForm } from './components/AppForm/index'
+import { AuthForm } from './components/AuthForm';
+import { AppForm } from './components/AppForm/index';
 
 interface IProps {}
 
@@ -39,8 +39,8 @@ export class App extends React.Component<IProps>{
             ret_dt = <AuthForm/>;}
    
         return ( 
-            <React.Fragment>    
-                {ret_dt}
+            <React.Fragment> 
+               {ret_dt}  
             </React.Fragment>
         );
     }
