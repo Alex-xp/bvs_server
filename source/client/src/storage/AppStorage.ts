@@ -16,8 +16,9 @@ class AppStorage {
     @observable auth_form: AuthFormStorage = null;
     @observable app_bar:  AppBarStorage = null;
     @observable personal_acc: PersonalAccauntStorage = null;
-    
 
+    
+ 
     constructor() {
         this.main = new PageStorage();
         this.auth_form = new AuthFormStorage();
