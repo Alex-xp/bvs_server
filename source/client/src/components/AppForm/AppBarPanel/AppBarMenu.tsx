@@ -9,6 +9,9 @@ import Logout from '@mui/icons-material/Logout';
 import {getCookie , setCookie, deleteCookie }  from '../../../storage/browserCookes';
 import { observer } from 'mobx-react';
 import { APP_STORAGE } from '../../../storage/AppStorage'
+
+import { IWSQuery, WSQuery, IWSResult } from '../../../../../xcore/WSQuery';
+import { WSocket } from '../../../storage/WSocket'; 
 interface IProps{} 
 
 
@@ -19,10 +22,15 @@ export class AccountMenu extends React.Component<IProps> {
         super(props);     
     }
 
-    onLogOut( ) {
-        APP_STORAGE.auth_form.setUser(null);
-       deleteCookie('sess_id', APP_STORAGE.auth_form.getdt() )  
-    }
+    async onLogOut( ) {
+            var q:IWSQuery = new WSQuery("deleteCookie");
+            q.args = { 
+            sess_id:APP_STORAGE.auth_form.getdt()
+            };
+            (await WSocket.get()).send(q);
+            APP_STORAGE.auth_form.setUser(null);
+            deleteCookie('sess_id', APP_STORAGE.auth_form.getdt() )  
+            }
  
     render(): React.ReactNode {
 
