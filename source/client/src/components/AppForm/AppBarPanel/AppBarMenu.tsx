@@ -5,6 +5,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Settings from '@mui/icons-material/Settings';
 import CreateIcon from '@mui/icons-material/Create';
 import Logout from '@mui/icons-material/Logout';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import {getCookie , setCookie, deleteCookie }  from '../../../storage/browserCookes';
 import { observer } from 'mobx-react';
@@ -67,6 +68,12 @@ export class AccountMenu extends React.Component<IProps> {
             <ListItemIcon>
             <CreateIcon fontSize="small" />
             </ListItemIcon>  Изменить данные пользователя
+            </MenuItem>
+
+            <MenuItem >
+            <ListItemIcon>
+            <LockOpenIcon fontSize="small" />
+            </ListItemIcon>  Изменить пароль
             </MenuItem>
 
             <MenuItem onClick={ ()=>{this.onLogOut();}}>  
