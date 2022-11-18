@@ -271,7 +271,7 @@ DROP FUNCTION IF EXISTS UpdateUser;
 create function UpdateUser(
 	c_sess_code VARCHAR(250),
 	c_login VARCHAR(250),
-	c_password VARCHAR(250),
+	--c_password VARCHAR(250),
 	c_family VARCHAR(150),
 	c_name VARCHAR(150),
 	c_father VARCHAR(150),
@@ -303,8 +303,7 @@ RETURNS TABLE (
 as $$
 UPDATE users
 SET
-	--password = c_password,
-	password = CASE WHEN ((SELECT password FROM users WHERE login=c_login) <> c_password) THEN (c_password) ELSE (SELECT password FROM users WHERE login=c_login) END,
+	--password = CASE WHEN ((SELECT password FROM users WHERE login=c_login) <> c_password) THEN (c_password) ELSE (SELECT password FROM users WHERE login=c_login) END,
  	family = c_family,
  	name = c_name,
  	father = c_father,

@@ -60,7 +60,7 @@ export class UserTable {
     }
 
     async updateUser(): Promise<UsersEntity[]> {
-        var db_res = await this.db.query("SELECT * FROM UpdateUser('" + this.sess_code + "', '"+this.args.login+"','"+crypto.createHmac('sha256', CONFIG.key_code).update(this.args.new_password).digest('hex')+"','"+
+        var db_res = await this.db.query("SELECT * FROM UpdateUser('" + this.sess_code + "', '"+this.args.login+"','"+
         this.args.family+"','"+this.args.name+"','"+this.args.father+"','"+this.args.telephone+"','"+this.args.email+"','"+this.args.info+"')");
         var result: UsersEntity[] = new Array();
         for (var r in db_res.rows) {

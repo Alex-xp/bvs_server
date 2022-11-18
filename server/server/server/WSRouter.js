@@ -53,8 +53,9 @@ function WSRoute(_ws, q) {
                         case 'get_UserBySessionCode': return [3, 1];
                         case 'get_UserByAuth': return [3, 4];
                         case 'set_CUserData': return [3, 7];
+                        case 'set_ChangePass': return [3, 9];
                     }
-                    return [3, 11];
+                    return [3, 10];
                 case 1:
                     st = new Sessions_1.SessionsTable(q.args);
                     ut = new Users_1.UserTable(q.args, q.sess_code);
@@ -72,7 +73,7 @@ function WSRoute(_ws, q) {
                         wsres.code = sess_code;
                         wsres.data = data;
                     }
-                    return [3, 12];
+                    return [3, 11];
                 case 4:
                     ut = new Users_1.UserTable(q.args, q.sess_code);
                     st = new Sessions_1.SessionsTable(q.args);
@@ -89,15 +90,11 @@ function WSRoute(_ws, q) {
                         wsres.code = sess_code;
                         wsres.data = data;
                     }
-                    return [3, 12];
+                    return [3, 11];
                 case 7:
-                    if (!(q.args.old_password === q.args.newpassword && q.args.old_password === null || q.args.new_password === null)) return [3, 8];
-                    wsres.error = "Новый пароль совпадает со страным или значения пустые";
-                    return [3, 10];
-                case 8:
                     ut = new Users_1.UserTable(q.args, q.sess_code);
                     return [4, ut.updateUser()];
-                case 9:
+                case 8:
                     data = _b.sent();
                     if (data[0] === undefined) {
                         wsres.error = "Пользователя не существует";
@@ -106,14 +103,16 @@ function WSRoute(_ws, q) {
                         wsres.data = data;
                         wsres.code = q.sess_code;
                     }
-                    _b.label = 10;
-                case 10: return [3, 12];
-                case 11:
+                    return [3, 11];
+                case 9:
+                    { }
+                    return [3, 11];
+                case 10:
                     {
                         wsres.error = "\u041A\u043E\u043C\u0430\u043D\u0434\u0430 \"".concat(q.cmd, "\" \u043D\u0435 \u0440\u0430\u0441\u043F\u043E\u0437\u043D\u0430\u043D\u0430");
                     }
-                    return [3, 12];
-                case 12:
+                    return [3, 11];
+                case 11:
                     _ws.send((0, WSQuery_1.WSStr)(wsres));
                     return [2];
             }
