@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import {AppBarPanel} from './AppBarPanel/AppBarPanel'
-import {PersonalAccaunt} from './PersonalAccaunt/PeronalAccaunt'
+import {PersonalAccaunt} from './MenuUser/PeronalAccaunt'
 
 import { APP_STORAGE } from '../../storage/AppStorage';
 

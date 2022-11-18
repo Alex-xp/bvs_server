@@ -128,21 +128,20 @@ export class PersonalAccaunt extends React.Component<IProps> {
 
         <Button  sx ={{mr: 2}}   
               variant="outlined"
-              onClick={ ()=>{ APP_STORAGE.personal_acc.set_CUserData()}}>
+              onClick={ ()=>{ APP_STORAGE.personal_acc.set_CUserData('sess_id', APP_STORAGE.auth_form.getdt())}}>
               Сохранить
         </Button>
 
         <Button     
               variant="outlined"
-              onClick={ ()=>{ APP_STORAGE.personal_acc.set_Change_Pass()}}>
+              onClick={ ()=>{ APP_STORAGE.personal_acc.set_ChangePass('sess_id', APP_STORAGE.auth_form.getdt())}}>
               Изменить и сохранить пароль
         </Button>
 
-      </Box>
-      </Box>
-     
-      <ChangePassword/>
 
+        <ChangePassword />
+      </Box>
+      </Box>
       <Divider/>
       <Divider />
       </Dialog>
