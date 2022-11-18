@@ -115,9 +115,10 @@ export class PersonalAccauntStorage{
 
 
 
-    async set_CUserData(){
+    async set_CUserData(name: string, value: any, _options?: any){
+        var sess_code = value;
         var q:IWSQuery = new WSQuery("set_CUserData");
-
+        
         const email = this.getEmail();
         const phone =  this.getTelephone();
         const regexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -151,17 +152,18 @@ export class PersonalAccauntStorage{
             email:this.getEmail(),
             info:this.getInfo()
          };
+         q.sess_code = sess_code;
+
+         
       (await WSocket.get()).send(q);
        }
     }
 
 
 
-    async set_Change_Pass() {
-
-        console.log(this.getOld_Pass().length)
-
-        var q:IWSQuery = new WSQuery("set_Change_Pass");
+    async set_ChangePass(name: string, value: any, _options?: any) {
+        var sess_code = value;
+        var q:IWSQuery = new WSQuery("set_ChangePass");
         if (this.getOld_Pass() === '') {  /// проверка пароля, если не пусто
             this.setErrr_old_pass(true);
             this.setError_old_message('Введите старый пароль.')
@@ -203,8 +205,11 @@ export class PersonalAccauntStorage{
             old_password:this.getOld_Pass(), 
             new_password:this.getNew_Pass(),
             repeat_password:this.getRepeat_password()
-         }; (await WSocket.get()).send(q);  
+         }; 
+          q.sess_code = sess_code;
+         (await WSocket.get()).send(q);  
        }
+      
     
     }
  
