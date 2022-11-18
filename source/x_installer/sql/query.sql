@@ -265,3 +265,54 @@ as $$
 	INNER JOIN sessions on users.id = sessions.uid
 	WHERE sessions.sess_code = c_sess_code
 $$ LANGUAGE sql;
+
+--Обновление пользователя 
+DROP FUNCTION IF EXISTS UpdateUser;
+create function UpdateUser(
+	c_sess_code VARCHAR(250),
+	c_login VARCHAR(250),
+	c_password VARCHAR(250),
+	c_family VARCHAR(150),
+	c_name VARCHAR(150),
+	c_father VARCHAR(150),
+	c_telephone VARCHAR(50),
+	c_email VARCHAR(150), 
+	c_info TEXT
+)
+RETURNS TABLE (
+	id BIGINT, 
+	login VARCHAR(250), 
+	password VARCHAR(250), 
+	family VARCHAR(150), 
+	name VARCHAR(150), 
+	father VARCHAR(150), 
+	telephone VARCHAR(50), 
+	email VARCHAR(150), 
+	org_id BIGINT, 
+	job_title_id BIGINT, 
+	roles_ids JSON,
+	user_data JSON, 
+	mail_code VARCHAR(250), 
+	act_mail BOOLEAN, 
+	re_password_code VARCHAR(250), 
+	deleted BOOLEAN, 
+	deleted_date TIMESTAMP, 
+	created_at TIMESTAMP, 
+	info TEXT
+)
+as $$
+UPDATE users
+SET
+	--password = c_password,
+	password = CASE WHEN ((SELECT password FROM users WHERE login=c_login) <> c_password) THEN (c_password) ELSE (SELECT password FROM users WHERE login=c_login) END,
+ 	family = c_family,
+ 	name = c_name,
+ 	father = c_father,
+ 	telephone = c_telephone,
+	mail_code = CASE WHEN ((SELECT email FROM users WHERE login=c_login) <> c_email) THEN (c_email) ELSE (SELECT mail_code FROM users WHERE login=c_login) END,
+	act_mail = CASE WHEN ((SELECT email FROM users WHERE login=c_login) <> c_email) THEN (false) ELSE (SELECT act_mail FROM users WHERE login=c_login) END,
+	email=c_email,
+ 	info = c_info
+WHERE login=c_login;
+SELECT * FROM SelectUserBySessCode(c_sess_code)
+$$ LANGUAGE sql;

@@ -22,7 +22,7 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
         // Возвращает пользователя и код сессии
         case 'get_UserBySessionCode': {
             var st = new SessionsTable(q.args);
-            var ut = new UserTable(q.args);
+            var ut = new UserTable(q.args, q.sess_code);
             var code = await st.selectSessCode();
             data = await ut.selectUserBySessCode();
 
@@ -40,7 +40,7 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
         // Создается код сессии записывается в бд 
         // Возвращает пользователя и код сессии
         case 'get_UserByAuth': {
-            var ut = new UserTable(q.args);
+            var ut = new UserTable(q.args, q.sess_code);
             var st = new SessionsTable(q.args);
             // Авторизация по логину и паролю
             sess_code = await st.insertSess();
@@ -55,6 +55,16 @@ export async function WSRoute(_ws: WebSocket, q: IWSQuery) {
         } break;
 
         case 'set_CUserData':{
+            if(q.args.old_password === q.args.newpassword && q.args.old_password===null || q.args.new_password===null)
+            {
+                wsres.error = "Новый пароль совпадает со страным или значения пустые"
+            }
+            else{
+                ut = new UserTable(q.args, q.sess_code);
+                data = await ut.updateUser();
+                if(data[0] === undefined)  {wsres.error = "Пользователя не существует";}
+                else {wsres.data = data; wsres.code = q.sess_code}
+            }
 
         }
         break;
