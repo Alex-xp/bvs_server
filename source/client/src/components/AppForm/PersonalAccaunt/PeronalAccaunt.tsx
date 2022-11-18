@@ -1,13 +1,14 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-
 import Dialog from '@mui/material/Dialog';
-import {TextField, Box, Button} from '@mui/material';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
+import {TextField, Box, Button , Divider , Typography } from '@mui/material';
+
 import CloseIcon from '@mui/icons-material/Close';
-import { APP_STORAGE } from '../../../storage/AppStorage' 
+import { APP_STORAGE } from '../../../storage/AppStorage';
+
+import {ChangePassword} from './ChangePassword'
+
 interface IProps{}
 
 
@@ -16,114 +17,136 @@ export class PersonalAccaunt extends React.Component<IProps> {
     constructor(props:any){
         super(props);
     }
-    render(): React.ReactNode {
-        const user =  APP_STORAGE.auth_form.user;
-        return (
-            <React.Fragment>
+      render(): React.ReactNode {
+      let user =  APP_STORAGE.auth_form.user;
 
-  <Dialog open={APP_STORAGE.personal_acc.getPersonalAccaunt()}>
-  <Box sx={{p: 2}}>
+      if(APP_STORAGE.personal_acc.getFamily() === ''){
+      APP_STORAGE.personal_acc.setFamily(user.family)  
+      }
 
-        <div className='header-modal' style={{display: 'flex', justifyContent : 'space-between'}}> <Typography sx = {{color: '#0D80D8', paddingBottom: '10px'}} > Карточка пользователя </Typography>
-        <CloseIcon  
-        onClick={()=>{ APP_STORAGE.personal_acc.setPersonalAccaunt(false); }}/> 
-        </div>
+      if(APP_STORAGE.personal_acc.getName() === ''){
+      APP_STORAGE.personal_acc.setName(user.name)  
+      }
 
-        <Divider  sx = {{marginBottom: '20px'}}/>
+      if(APP_STORAGE.personal_acc.getFather() === ''){
+      APP_STORAGE.personal_acc.setFather(user.father)  
+      }
 
-
-    <Box 
-        className='wrapper' sx={{
-        display: 'grid',
-        gridTemplateColumns: '3fr 1fr',
-        alignItems : 'center', 
-        gap: 1
-          }}>
+      if(APP_STORAGE.personal_acc.getTelephone() === ''){
+      APP_STORAGE.personal_acc.setTelephone(user.telephone)  
+      }
 
 
-          <Box 
-              sx={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr',
-              alignItems : 'center', 
-              gap: 1
-          }}
-          > 
+      if(APP_STORAGE.personal_acc.getEmail() === ''){
+      APP_STORAGE.personal_acc.setEmail(user.email)  
+      }
 
-            <Typography>Фамилия:</Typography>
-              <TextField 
-                  size='small'
-                  onChange={ (e)=>{ APP_STORAGE.personal_acc.setFamily(e.target.value);; } }
-                  value={ APP_STORAGE.personal_acc.getFamily() || user.family } />
-
-       
-            <Typography >Имя:</Typography>
-                <TextField  
-                    size='small'
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setName(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getName() || user.name} />
+      if(APP_STORAGE.personal_acc.getInfo() === ''){
+      APP_STORAGE.personal_acc.setInfo(user.info)  
+      }
 
 
-            <Typography >Отчество:</Typography>
-                <TextField 
-                    size='small' 
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setFather(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getFather() || user.father }  />
+      return (
+      <React.Fragment>
+
+      <Dialog open={APP_STORAGE.personal_acc.getPersonalAccaunt()}>
+
+      <Box 
+         sx={{p: 2}}>
+            <Typography 
+              sx = {{color: '#0D80D8', paddingBottom: '10px'}}> 
+              Карточка пользователя 
+            </Typography>
+
+            <CloseIcon  
+             onClick={()=>{ APP_STORAGE.personal_acc.setPersonalAccaunt(false); }}/> 
+   
+
+      <Divider sx = {{marginBottom: '20px'}}/>
+      <Box>     
+        <form action="#" method="#" className ="form" id="js-register-form"> 
+
+        <Typography variant="caption">Фамилия:</Typography>
+        <TextField 
+              fullWidth 
+              size='small'
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setFamily(e.target.value);; } }
+              value={ APP_STORAGE.personal_acc.getFamily() || '' } />
 
 
-            <Typography >Телофон:</Typography>
-                <TextField 
-                    size='small' 
-                    type="number"
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setTelephone(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getTelephone() || user.telephone } />
+        <Typography variant="caption">Имя:</Typography>
+        <TextField 
+              fullWidth 
+              size='small'
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setName(e.target.value); } }
+              value={ APP_STORAGE.personal_acc.getName() || user.name} />
 
 
-            <Typography >Старый пароль:</Typography>
-                <TextField   
-                    size='small' 
-                    type="password"
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setOld_Pass(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getOld_Pass()  } />
-                    
+        <Typography variant="caption" >Отчество:</Typography>
+        <TextField
+              fullWidth  
+              size='small' 
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setFather(e.target.value); } }
+              value={ APP_STORAGE.personal_acc.getFather() || user.father }  />
 
-            <Typography >Новый пароль:</Typography>
-                <TextField 
-                    size='small' 
-                    type="password"
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setNew_Pass(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getNew_Pass() } />
+      
+        <Typography variant="caption">Телофон:</Typography>
+        <TextField 
+              error={APP_STORAGE.personal_acc.getError_phone()}
+              helperText= {APP_STORAGE.personal_acc.getPhone_message()}
+              fullWidth 
+              size='small' 
+              type="tel"
+              required
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setTelephone(e.target.value); } }
+              value={ APP_STORAGE.personal_acc.getTelephone() || user.telephone } />
 
-          
-            <Typography >E-mail:</Typography>
-                <TextField  
-                    size='small'
-                    type = 'email'
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setEmail(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getEmail() || user.email} />
-          
 
-            <Typography >Примечание</Typography>
-                <TextField 
-                    size='small'
-                    onChange={ (e)=>{ APP_STORAGE.personal_acc.setInfo(e.target.value); } }
-                    value={ APP_STORAGE.personal_acc.getInfo()  || user.info} />
-            
-          
+        <Typography variant="caption">E-mail:</Typography>
+        <TextField
+              error={APP_STORAGE.personal_acc.getError_emain()}
+              helperText= {APP_STORAGE.personal_acc.getEmail_message()}
+              fullWidth   
+              size='small'
+              type = 'email'
+              required
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setEmail(e.target.value); } }
+              value={ APP_STORAGE.personal_acc.getEmail() || user.email} />
+
+
+        <Typography variant="caption">Примечание:</Typography>
+        <TextField 
+              fullWidth 
+              size='small'
+              onChange={ (e)=>{ APP_STORAGE.personal_acc.setInfo(e.target.value); } }
+              value={ APP_STORAGE.personal_acc.getInfo()  || user.info}  />
+
+        </form>
         </Box>
-        <Box className='right-wrapper' sx ={{pl: 1}}>
+
+        <Box className='right-wrapper' sx ={{pl: 1, mt : 2}}>
+
+        <Button  sx ={{mr: 2}}   
+              variant="outlined"
+              onClick={ ()=>{ APP_STORAGE.personal_acc.set_CUserData()}}>
+              Сохранить
+        </Button>
 
         <Button     
-            variant="outlined"
-            onClick={ ()=>{ APP_STORAGE.personal_acc.set_CUserData()}}>
-            Сохранить
-         </Button>
-     </Box>
-    </Box>
-  </Box>
-        <Divider />
+              variant="outlined"
+              onClick={ ()=>{ APP_STORAGE.personal_acc.set_Change_Pass()}}>
+              Изменить и сохранить пароль
+        </Button>
+
+      </Box>
+      </Box>
+     
+      <ChangePassword/>
+
+      <Divider/>
+      <Divider />
       </Dialog>
-    </React.Fragment>
+      </React.Fragment>
         );
     }
 }

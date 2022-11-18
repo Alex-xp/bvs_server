@@ -7,7 +7,7 @@ import {AppBar, Box, IconButton} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu'; // иконка для меню
 
 import {AppBarLeftPanel} from './AppBarLeftPanel'
-import {AccountMenu} from './AccountMenu'
+import {AccountMenu} from './AppBarMenu'
 
 interface IProps{} 
 
