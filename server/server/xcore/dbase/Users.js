@@ -113,7 +113,7 @@ var UserTable = (function () {
             var db_res, result, r;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4, this.db.query("SELECT * FROM UpdateUser('" + this.sess_code + "', '" + this.args.login + "','" + crypto_1["default"].createHmac('sha256', config_1.CONFIG.key_code).update(this.args.new_password).digest('hex') + "','" +
+                    case 0: return [4, this.db.query("SELECT * FROM UpdateUser('" + this.sess_code + "', '" + this.args.login + "','" +
                             this.args.family + "','" + this.args.name + "','" + this.args.father + "','" + this.args.telephone + "','" + this.args.email + "','" + this.args.info + "')")];
                     case 1:
                         db_res = _a.sent();
