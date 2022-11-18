@@ -69,9 +69,10 @@ var UsersEntity = (function () {
 }());
 exports.UsersEntity = UsersEntity;
 var UserTable = (function () {
-    function UserTable(_args) {
+    function UserTable(_args, _sess_code) {
         this.db = (0, DBase_1.getDB)();
         this.args = _args;
+        this.sess_code = _sess_code;
     }
     UserTable.prototype.selectUser = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -96,6 +97,24 @@ var UserTable = (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4, this.db.query("SELECT * FROM SelectUserBySessCode ('" + this.args.code + "')")];
+                    case 1:
+                        db_res = _a.sent();
+                        result = new Array();
+                        for (r in db_res.rows) {
+                            result.push(db_res.rows[r]);
+                        }
+                        return [2, result];
+                }
+            });
+        });
+    };
+    UserTable.prototype.updateUser = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var db_res, result, r;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4, this.db.query("SELECT * FROM UpdateUser('" + this.sess_code + "', '" + this.args.login + "','" + crypto_1["default"].createHmac('sha256', config_1.CONFIG.key_code).update(this.args.new_password).digest('hex') + "','" +
+                            this.args.family + "','" + this.args.name + "','" + this.args.father + "','" + this.args.telephone + "','" + this.args.email + "','" + this.args.info + "')")];
                     case 1:
                         db_res = _a.sent();
                         result = new Array();
