@@ -1,9 +1,9 @@
 import { observable, action, computed, makeAutoObservable } from 'mobx';
 import { IWSQuery, IWSResult, WSQuery } from '../../../xcore/WSQuery';
 import { PageStorage } from './PageStorage';
-import { AuthFormStorage } from './components/AuthFormStorage';
-import { AppBarStorage } from './components/AppBarStorage';
-import { PersonalAccauntStorage } from './components/PersonalAccauntStorage';
+import { AuthFormStorage } from './StorageComponents/AuthFormStorage';
+import { AppBarStorage } from './StorageComponents/AppBarStorage';
+import { PersonalAccauntStorage } from './StorageComponents/MenuUserStorage';
 import { WSocket } from './WSocket';
 import {getCookie , setCookie, deleteCookie }  from './browserCookes'
 import { UsersEntity } from '../../../xcore/dbase/Users';
@@ -51,7 +51,6 @@ class AppStorage {
         console.log(q); 
     }
 
-   
 };
 
 export const APP_STORAGE: AppStorage = new AppStorage();

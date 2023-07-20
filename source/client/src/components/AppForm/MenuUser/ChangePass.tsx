@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 
 import {TextField, Box, Button} from '@mui/material';
-import { APP_STORAGE } from '../../../../storage/AppStorage' 
+import { APP_STORAGE } from '../../../storage/AppStorage' 
 
 interface IProps{}
 

@@ -70,7 +70,7 @@ export class AccountMenu extends React.Component<IProps> {
             </ListItemIcon>  Изменить данные пользователя
             </MenuItem>
 
-            <MenuItem >
+            <MenuItem onClick={()=>{ APP_STORAGE.personal_acc.setPersonalAccaunt(true); }} >
             <ListItemIcon>
             <LockOpenIcon fontSize="small" />
             </ListItemIcon>  Изменить пароль
